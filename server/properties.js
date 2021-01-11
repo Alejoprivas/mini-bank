@@ -4,5 +4,6 @@ module.exports = {
     port: process.env.NODE_PORT || 3000,
     scrapUrl:  "https://hn.algolia.com/api/v1/search_by_date?query=nodejs",
     api: process.env.NODE_API != null ? process.env.NODE_API : '/api',
-    seedDB: process.env.seedDB != null ? process.env.seedDB : true
+    seedDB: process.env.seedDB != null ? process.env.seedDB : true,
+    JWT_SECRET: 'HTfPI8UyzTDeQg6c6VKN'
 }
