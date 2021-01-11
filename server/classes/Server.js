@@ -11,7 +11,8 @@ import cron from "node-cron";
 import Database from "./Database.js";
 
 
-import HackerNewsController from "../controllers/HackerNewsController"
+import HackerNewsController from "../controllers/HackerNewsController";
+import UserController from "../controllers/UserController";
 //Controllers
 
 class Server{
@@ -37,7 +38,7 @@ class Server{
         await server.listen(properties.port);
 
         HackerNewsController.init(router);
-
+        UserController.init(router);
         this.app.use("/",router);
 
     }

@@ -4,32 +4,30 @@
  */
  
 import HackerNewsModel from '../models/HackerNewsModel';
+import UserModel from '../models/UserModel';
 import properties from '../properties';
 
 const start = ()=>{
     if(properties.seedDB) {
-        console.log("seed database  set to truth")
-        let seed = [
+        console.log("seed database  set to truth");
+        let userSeed = [
             {
-            story_title:"This is part of the seed",
-            title:null,
-            created_at: '2019-11-15T23:52:48.000Z',
-            author:"patcon",
-            story_url:'https://www.bbc.com/news/education-50418317',
-            story_id:"21544864",
-            }, 
+                rut: '26655791-4',
+                email: 'alejoprivas@gmail.com',
+                balance: '89999999',
+            },
             {
-            story_title: null,
-            title:"This is also part of the seed",
-            created_at: '2019-10-15T23:52:48.000Z',
-            author:"karma",
-            story_url:'https://www.bbc.com/news/education-50418317',
-            story_id:"31544864",
-            }, 
+                rut: '26655791-5',
+                email: 'pedro_perez@gmail.com',
+                balance: '11111111',
+            },
         ]
-        let news = HackerNewsModel;
-        console.log("seed")
-        news.createBulk(seed);   
+        let singleUser = {rut:'123123-4',email:'aa@gmail.com',balance:'919191',password:'password'};
+        
+        let user = UserModel;
+        //console.log(user.registerUser(singleUser));
+        //console.log(user.getByEmailAndPassword(singleUser.email,singleUser.password));
+        //users.createBulk(userSeed);
     }else{
         console.log("seed database not set, you can change it in the properties.js file")
     }
