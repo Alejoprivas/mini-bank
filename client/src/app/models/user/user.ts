@@ -11,18 +11,21 @@ export class User extends UserBase {
     // Functions for User
 
     public token: string;
+    public balance: string;
 
     constructor(
         _id?: string,
         username?: string,
         token?: string,
-        roles?: string[]
+        roles?: string[],
+        balance?: string
     ) {
         super();
         this._id = _id;
         this.username = username;
         this.token = token;
         this.roles = roles;
+        this.balance = balance;
     }
 
     isAdmin(): boolean {
