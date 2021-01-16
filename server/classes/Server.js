@@ -13,6 +13,7 @@ import Database from "./Database.js";
 
 import HackerNewsController from "../controllers/HackerNewsController";
 import UserController from "../controllers/UserController";
+import securityControllers from "../controllers/AuthController.js";
 //Controllers
 
 class Server{
@@ -36,8 +37,8 @@ class Server{
         //Import controllers
         const router = express.Router();
         await server.listen(properties.port);
-
-        HackerNewsController.init(router);
+        securityControllers.init(router);
+        //HackerNewsController.init(router);
         UserController.init(router);
         this.app.use("/",router);
 

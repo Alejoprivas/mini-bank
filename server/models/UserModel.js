@@ -27,21 +27,30 @@ const UserModel = {
         balance: {
             type: "String"
         },
+        },{
+          toJSON: { virtuals: true },
+          toObject: { virtuals: true }
         });
 
-         
+        UserSchema.virtual('token').get(function () {
+          return this.__token;
+        }).set(function (token) {
+          this.__token = token;
+        });; 
         UserSchema.methods.setPassword = function(password) {
             this.salt = crypto.randomBytes(16).toString('hex');
             this.hash = crypto
               .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
               .toString('hex');
-          };       
+        };     
+
         UserSchema.methods.validPassword = function(password) {
             const hash = crypto
               .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
               .toString('hex');
             return this.hash === hash;
         };
+
         UserSchema.methods.generateJwt = function() {
             const expiry = new Date();
             expiry.setDate(expiry.getDate() + 7);          
@@ -49,7 +58,8 @@ const UserModel = {
               {
                 _id: this._id,
                 email: this.email,
-                name: this.name,
+                rut: this.rut,
+                balance: this.balance,
                 exp: parseInt(expiry.getTime() / 1000)
               },
               Properties.JWT_SECRET
@@ -60,10 +70,11 @@ const UserModel = {
         return UserSchema
     }, 
     async registerUser(user) {
-        var user = new UserModel.model(user);
+        var newUser = new UserModel.model(user);
+        newUser.balance = 0;
         newUser.setPassword(user.password);
-        newUser.save();
-        return newUser;
+        //newUser.save();
+        return await newUser.save();
     },
     async changePassword(email,oldPassWord,newPassWord){
         let user = await UserModel.model.findOne({email:email});
@@ -83,10 +94,29 @@ const UserModel = {
           return result;
     },
     async getByEmailAndPassword(email,password){
+        
         let user = await UserModel.model.findOne({email:email});
         let token = await user.validPassword(password) ? await user.generateJwt() : false;
         console.log('token', token);
-        return token;
+        //let login = user
+        user.hash = undefined;
+        user.salt = undefined;
+        user.token = token;
+        console.log(user.token)
+        return token? user: false;
+        //*/ 
+        /*
+          .findOne({
+            email: email,
+            hash: password
+          })
+          .lean();
+
+        if (result) user.hash = undefined;
+        return user;
+        
+         //*/
+          
     },
     async createBulk(userBulk) {
         await UserModel.model.insertMany(userBulk, function (err, docs) {

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
  
 import properties from "../properties.js";
-import Database from ''
-import seed from "../config/seed"
+
+import start from "../config/seed"
 import HackerNewsModel from "../models/HackerNewsModel";
 import UserModel from "../models/UserModel";
 class Database {
@@ -13,9 +13,9 @@ class Database {
 
         await this.authenthicate();
         /**init models **/
-        HackerNewsModel.init();
+        //cHackerNewsModel.init();
         UserModel.init();
-        console.log(seed())
+        console.log(start());
     }
 
     async authenthicate(){

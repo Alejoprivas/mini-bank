@@ -9,22 +9,30 @@ import { HeaderComponent } from './shared/layout/header/header.component';
 
 import {MaterialModule} from './material.module';
 import { DateChangerPipe } from './pipes/date-changer.pipe';
+import { AlertComponent } from './core/components/alert/alert.component';
+import { AlertService } from './core/services/alert.service';
+import { CoreModule } from './core.module';
 
 @NgModule({
   declarations: [
     AppComponent, 
     HeaderComponent,
     NewslistComponent,
-    DateChangerPipe
+    DateChangerPipe,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    CoreModule
   ],
-  providers: [],
+  exports: [AlertComponent],
+  providers: [
+    AlertService
+  ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,4 +1,6 @@
 import Properties from "../properties";
+import ErrorManager from "../classes/ErrorManager";
+import Errors from "../classes/Errors";
 
 import UserModel from "../models/UserModel";
 import mongoose,{Schema} from "mongoose";
@@ -9,6 +11,7 @@ const UserController = {
        const baseUrl = `${Properties.api}/user`;
        // custom route
        router.get(baseUrl , UserController.get);
+       router.post(baseUrl , UserController.post);
        //router.delete(`${baseUrl}/delete/:id` , UserController.remove);
       },
       get: async (req,res) => {
@@ -17,8 +20,27 @@ const UserController = {
           console.log(UserModel);
           res.send('Test');
         } catch (err) {
-          console.log(err)
-          res.status(500).json("Error");
+          //console.log(err)
+          const safeErr = ErrorManager.getSafeError(err);
+          res.status(safeErr.status).json(safeErr);
+          //res.status(500).json("Error");
+        }
+      },
+      
+      post: async (req,res) => {
+        try {
+          let user = await UserModel.registerUser(req.body);
+          //console.log(UserModel);
+          //console.log(req.body);
+          user.salt = undefined;
+          user.hash = undefined;
+          
+          res.send(user);
+        } catch (err) {
+          const safeErr = ErrorManager.getSafeError(err);
+          res.status(safeErr.status).json(safeErr);
+          //console.log('error',err)
+          //res.status(500).json("Error");
         }
       },
       remove: async (req,res) => {

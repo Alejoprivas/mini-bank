@@ -2,10 +2,14 @@
 import Properties from "../properties";
 
 // Security
-import { authorize } from "../security/SecurityManager";
+import { authorize } from "./security/SecurityManager";
 import jsonwebtoken from "jsonwebtoken";
 import UserModel from "../models/UserModel";
 
+
+// Errors
+import ErrorManager from "../classes/ErrorManager";
+import Errors from "../classes/Errors";
 
 const securityControllers = {
   /**
@@ -30,15 +34,35 @@ const securityControllers = {
     try {
       let params = req.body;
       // Retrieve Token
-      let user = await UserModel.getByUsernameAndPassword(
+      //console.log(params.username, params.password);
+      //let user = await UserModel.getByUsernameAndPassword(
+      
+      let user = await UserModel.getByEmailAndPassword(
         params.username,
         params.password
       );
-      if (!user) {
-          console.log('Errors');
-        //throw new Errors.INVALID_LOGIN();
+
+      if(user){
+        res.send(user);
+
+      } else {
+        // Error login
+        throw new Errors.INVALID_LOGIN();
       }
+      /*
+      if (user) {
+        // Create token
+        console.log(user)
+        var token = jsonwebtoken.sign(user, Properties.JWT_SECRET, { expiresIn: '1h' });
+        user.token = token;
+        user.password = undefined;
+        res.send(user);
+      } else {
+        // Error login
+        throw new Errors.INVALID_LOGIN();
+      }//*/
     } catch (err) {
+      console.log(err)
       res.status(500).json({ status: 500, message: "Unknown server error" });;
     }
   },
@@ -50,10 +74,11 @@ const securityControllers = {
   verifyToken: async (req, res) => {
     try {
       let token = req.body.token;
+      //console.log('token',token)
       if (token) {
         let decoded = null;
         try {
-          decoded = jsonwebtoken.verify(token, Properties.tokenSecret);
+          decoded = jsonwebtoken.verify(token, Properties.JWT_SECRET);
         } catch (err) {
           return res.json({
             success: false,
@@ -83,7 +108,7 @@ const securityControllers = {
         req.body.passwordOld
       );
       if (!user) {
-        //throw new Errors.OLD_PWD_NOT_VALID();
+        throw new Errors.OLD_PWD_NOT_VALID();
       }
 
       await UserModel.changePassword(req.user.username,req.body.passwordOld, req.body.passwordNew);
