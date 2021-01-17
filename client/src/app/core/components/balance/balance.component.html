@@ -1,3 +1,44 @@
-<div class="d-flex">
-    <h1>Balance:</h1><h1 class="flex-grow-1 font-weight-bold text-right">{{balance}}</h1>
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">
+      <div class="dropdown">
+        <button
+          class="btn btn-primary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+        >
+          Cuentas
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a
+            *ngFor="let cuenta of cuentas; index as i"
+            (click)="selectAccount(i)"
+            class="dropdown-item"
+            ><b>Cuenta:</b> {{ cuenta?._id }}</a
+          >
+        </div>
+      </div>
+    </h5>
+    <h6 class="card-subtitle mb-2 text-muted"></h6>
+    <p class="card-text"><b>Num cuenta:</b> {{ selectedCuenta?._id }}</p>
+    <p class="card-text">
+      <b>Saldo disponible:</b>
+      {{ selectedCuenta?.balance }}
+    </p>
+  </div>
 </div>
+<!-- <div class="card">
+  <h1 class="card-header">
+    Cuentas:
+
+  </h1>
+  <div class="card-body">
+    <div class="card">
+      <h5 class="card-header"></h5>
+      <div class="card-body">
+        <p class="card-text"></p>
+      </div>
+    </div>
+  </div>
+</div> -->
