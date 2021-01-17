@@ -17,6 +17,7 @@ const TransactionController = {
         },
         makeDeposit: async (req, res) => {
             try {
+              console.log(req.user);
               let token = req.headers.authorization.replace("Bearer ", "");
               let accountNumber = req.body.accountNumber;
               let depositAmount = req.body.depositAmount;

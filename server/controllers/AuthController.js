@@ -102,7 +102,7 @@ const securityControllers = {
         throw new Errors.OLD_PWD_NOT_VALID();
       }
       user.setPassword(req.body.passwordNew)
-      console.log(req.user)
+      //console.log(req.user)
       user.save()
       //await UserModel.updatePassword(user._id, user.hash);
       res.json({
