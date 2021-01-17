@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 class TransferForm {
 
@@ -24,7 +25,8 @@ class TransferForm {
   styleUrls: ['./transferir.component.sass']
 })
 export class TransferirComponent implements OnInit {
-
+  
+  transferForm: TransferForm = new TransferForm(null,null,null,null);
   selectedCuenta: null;
   depositAmount: 0;
   constructor() { }
@@ -36,10 +38,19 @@ export class TransferirComponent implements OnInit {
     this.selectedCuenta = cuenta;
   }
   
-  getEndCuenta() {
+
+  onBlur(){
+    let v = this.transferForm.dstRut?this.transferForm.dstRut.slice(-1):false;
+    if(v){
+      let valor = this.transferForm.dstRut.replace(/\./g,'');
+      console.log(this.transferForm.dstRut.replace(/\./g,''))  
+    
+      valor = valor.replace(/-/g,'');
+      this.transferForm.dstRut = valor.slice(0,valor.length-1) + '-' + v
+    };
   }
-
-  transferMoney() {
-
+  transferMoney(form: NgForm) {
+    console.log('Cuenta destino', this.transferForm);
+    console.log('Cuenta origen', this.selectedCuenta)
   }
 }

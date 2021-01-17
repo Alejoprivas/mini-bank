@@ -10,16 +10,28 @@ import { PrincipalComponent } from '../../components/principal/principal.compone
 import { DepositoComponent } from '../../components/deposito/deposito.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RutValidateDirective } from '../../_auth/directives/rut-validate.directive';
+import { RutlimitDirective } from '../../_auth/directives/rut-limit.directive';
 
 
 
 @NgModule({
-  declarations: [MainComponent, BalanceComponent, ConsultaComponent, RetiroComponent, TransferirComponent, PrincipalComponent, DepositoComponent],
+  declarations: [MainComponent, 
+                 BalanceComponent, 
+                 ConsultaComponent, 
+                 RetiroComponent, 
+                 TransferirComponent, 
+                 PrincipalComponent, 
+                 DepositoComponent,
+                 RutValidateDirective,
+                 RutlimitDirective],
+  exports: [RutlimitDirective],
   imports: [
     CommonModule,
     MainRoutingModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
+
 })
 export class MainModule { }

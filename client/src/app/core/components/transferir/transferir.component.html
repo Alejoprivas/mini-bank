@@ -1,3 +1,5 @@
+
+<form #frm="ngForm">            
 <div class="row">
     <div class="col-md-12">
       <div class="jumbotron">
@@ -34,31 +36,28 @@
       <h3>Cuenta Destino:</h3>
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">
+                <div class="form-group row m-0">
+                    
+                    <div class="form-group m-0" >
+                        <label class="pull-left m-0" for="rut"><strong>rut</strong></label>
+                        <input type="text" (blur)="onBlur()" class="form-control" id="rut" [(ngModel)]="transferForm.dstRut" [rut-limit]="rut.value" name="rut" #rut="ngModel" rut required>
+                    </div>
+                </div>
+                <div class="form-group row m-0">
+                    
+                    <div class="form-group m-0" >
+                        <label class="pull-left m-0" for="nroCuenta"><strong>Nro. Cuenta</strong></label>
+                        <input type="text" class="form-control" id="cuenta" [(ngModel)]="transferForm.dstCuenta" name="dstCuenta" #dstCuenta="ngModel" required>
+                    </div>
+                </div>
+                <div class="form-group row m-0">
+                    
+                    <div class="form-group m-0" >
+                        <label class="pull-left m-0" for="monto"><strong>Monto</strong></label>
+                        <input type="number" class="form-control" id="monto" [(ngModel)]="transferForm.monto" name="monto" #monto="ngModel" required>
+                    </div>
+                </div>
 
-          </h5>
-          
-                <div class="form-group row m-0">
-                    
-                    <div class="form-group m-0" >
-                        <label class="pull-left" for="rut"><strong>rut</strong></label>
-                        <input type="text" class="form-control" id="rut">
-                    </div>
-                </div>
-                <div class="form-group row m-0">
-                    
-                    <div class="form-group m-0" >
-                        <label class="pull-left" for="nroCuenta"><strong>Nro. Cuenta</strong></label>
-                        <input type="text" class="form-control" id="rut">
-                    </div>
-                </div>
-                <div class="form-group row m-0">
-                    
-                    <div class="form-group m-0" >
-                        <label class="pull-left" for="monto"><strong>Monto</strong></label>
-                        <input type="number" class="form-control" id="monto">
-                    </div>
-                </div>
         </div>
       </div>
       <!-- <div class="card">
@@ -78,7 +77,7 @@
       
     </div>
   </div>
-  <div class="row">
+  <!--div class="row">
     <div *ngIf="selectedCuenta" class="col-md-12">
       <h1>Ingrese monto a depositar:</h1>
       <form *ngIf="selectedCuenta">
@@ -119,14 +118,19 @@
         </div>
       </form>
     </div>
-  </div>
+  </div-->
   <div class="row">
     <div class="col-md-12">
       <div class="d-flex justify-content-between">
         <button type="menu" class="mx-1 btn btn-info" [routerLink]="['/main']">
           volver
         </button>
+        
+        <button type="menu" class="mx-1 btn btn-info" (click)="transferMoney(frm)">
+            transferir
+        </button>
       </div>
     </div>
   </div>
   
+</form>
