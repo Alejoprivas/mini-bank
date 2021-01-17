@@ -45,6 +45,24 @@ const TransactionModel = {
         }
         return result;
     },
+    async withdrawal(accountNumber,amount) {
+        const transaction = {
+            tipo:'withdrawal',
+            source : accountNumber,
+            destination : accountNumber,
+            balance : amount,
+            state : 'done'
+        }
+        let result = null;
+        try{
+            var newtransaction = new TransactionModel.model(transaction);
+            result = await newtransaction.save();
+        }catch(e){
+            console.log(e);
+            result = false;
+        }
+        return result;
+    },
     async withdraw(account,amount) {
         var newUser = new UserModel.model(user);
         newUser.setPassword(user.password);

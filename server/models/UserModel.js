@@ -79,17 +79,18 @@ const UserModel = {
         };
 
         UserSchema.methods.updateAccountBalance = function(account,newBalance){
-          let result = null;
-          console.log('account',this.account.id(account._id));
-          if(this.account.id(account._id).balance >= newBalance){
-            this.account.id(account._id).balance = this.account.id(account._id).balance + newBalance;
-            console.log(this.account.id(account._id));
-            result = true;
-          }else{
-            result = false;
+          let isPositive = Math.sign(newBalance);
+          let canPerformtransaction = true;
+          if(isPositive <= 0 ){
+            //check if balance is greater then withdraw amount 
+            if(this.account.id(account._id).balance <= Math.abs(newBalance)){
+              canPerformtransaction = false;
+            }
           }
-          console.log('done');
-          return result; 
+          if(canPerformtransaction){
+            this.account.id(account._id).balance = this.account.id(account._id).balance + newBalance;
+          }
+          return canPerformtransaction; 
       }  
 
         UserModel.model= mongoose.model('User',UserSchema); 
