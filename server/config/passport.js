@@ -3,8 +3,6 @@ import cors from "cors";
 import helmet from "helmet";
 // Properties
 import properties from "../properties";
-// Errors
-import UserModel from "../models/Testing_db/UserModel";
 
 export const authorize = () => {
   // Roles param can be a single role string (e.g. Role.User or 'User')

@@ -1,36 +1,49 @@
-<!--mat-toolbar color="primary">    
-        <mat-toolbar-row class="header">
-                <div class="header_container">
-                    <h1>HN Feed</h1>
-                    <p class="header_subtitle">We  &lt;3 Hacker news!</p>
-                </div>
-        </mat-toolbar-row>    
-</mat-toolbar-->   
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
-        <a class="navbar-brand" routerLink="">Login app</a>
-      
-        <div *ngIf="user" class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-          <ul class="navbar-nav ml-auto">
-              <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#dropdown" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Welcome {{user.username}}
-                  </a>
-                  <div class="dropdown-menu" id="dropdown" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" routerLink="/profile">Profile</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" (click)="authenticationService.logout()">Logout</a>
-                  </div>
-              </li>
-          </ul>
+  <a class="navbar-brand" routerLink="">Login app</a>
+
+  <div
+    *ngIf="user"
+    class="navbar-collapse collapse w-100 order-3 dual-collapse2"
+  >
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#dropdown"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Welcome {{ user.username }}
+        </a>
+        <div
+          class="dropdown-menu"
+          id="dropdown"
+          aria-labelledby="navbarDropdown"
+        >
+          <a class="dropdown-item" routerLink="/profile">Profile</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="authenticationService.logout()"
+            >Logout</a
+          >
         </div>
-        <div *ngIf="!user" class="navbar-nav ml-auto">
-          
-            <a mdbWavesEffect type="button" [routerLink]="['login']" class="nav-link waves-light" mdbWavesEffect>
-                Login<mdb-icon fas icon="sign-in-alt"></mdb-icon>
-            </a>
-        </div>
-        <!-- div *ngIf="user" class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!user" class="navbar-nav ml-auto">
+    <a
+      mdbWavesEffect
+      type="button"
+      [routerLink]="['login']"
+      class="nav-link waves-light"
+      mdbWavesEffect
+    >
+      Login<mdb-icon fas icon="sign-in-alt"></mdb-icon>
+    </a>
+  </div>
+  <!-- div *ngIf="user" class="navbar-collapse collapse w-100 order-3 dual-collapse2">
           <button class="navbar-toggler" mdbwaveseffect="" type="button"><span class="navbar-toggler-icon"></span></button>
           <div class="navbar-nav ml-auto" mdbCollapse #test="bs-collapse">
               <div class="navbar-collapse collapse" >
@@ -42,4 +55,4 @@
               </div>
             </div>
         </div-->
-      </nav>
+</nav>
