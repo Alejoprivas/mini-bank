@@ -17,15 +17,14 @@ export class User {
 
     constructor(
         _id?: string,
+        email?: string,
         username?: string,
         token?: string,
-        roles?: string[],
         account?: Account[]
     ) {
         this._id = _id;
         this.username = username;
         this.token = token;
-        this.roles = roles;
         this.account = account;
     }
 

@@ -37,7 +37,8 @@ export class AuthGuard implements CanActivate {
                     this.router.navigate(['/login']);
                 } else {
                     // Logged user
-                    const userObj: User = new User(user._id, user.username, user.token, user.roles);
+                    /*
+                    const userObj: User = new User(user._id, user.username, user.token);
                     if (roles && roles.length > 0) {
                         // Check roles
                         if (userObj.hasRole(roles)) {
@@ -46,7 +47,7 @@ export class AuthGuard implements CanActivate {
                             ob.next(false);
                             this.router.navigate(['/login']);
                         }
-                    }
+                    }//*/
                     ob.next(true);
                 }
             });

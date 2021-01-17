@@ -104,41 +104,18 @@ const UserModel = {
         newUser.account.push({balance:0});
         return await newUser.save();
     },
-<<<<<<< HEAD
-    
-    async getUser(id) {
-        let result = await Database.getConnection().models.User.findByPk(id, {
-            attributes: {
-              exclude: ["hash"]
-            }
-          });
-          // Find roles
-          let roles = await result.getRoles({ raw: true });
-          result.dataValues.roles = roles.map(item => item.role);
-          return result;
-=======
     async changePassword(email,oldPassWord,newPassWord){
         let user = await UserModel.model.findOne({email:email});
         let result = await user.validPassword(oldPassWord) ? await user.setPassword(newPassWord) : false;
         console.log('newPassWordSet', token);
         return result;
->>>>>>> f68ef816c5c40dae26e7df163c746e8c0aab88da
     },
     async getByEmailAndPassword(email,password){
         let user = await UserModel.model.findOne({email:email},{});
         let token = await user.validPassword(password) ? await user.generateJwt() : false;
-<<<<<<< HEAD
-        //console.log('token', token);
-        //let login = user
         user.hash = undefined;
         user.salt = undefined;
         user.token = token;
-        //console.log(user.token)
-=======
-        user.hash = undefined;
-        user.salt = undefined;
-        user.token = token;
->>>>>>> f68ef816c5c40dae26e7df163c746e8c0aab88da
         return token? user: false;
           
     },
