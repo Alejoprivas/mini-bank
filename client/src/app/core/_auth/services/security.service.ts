@@ -50,15 +50,14 @@ export class SecurityService {
     /**
      * Change password of current user
      *
-     * @param {string} passwordNew New password to set in SHA-3
-     * @param {string} passwordOld Old password to check in SHA-3
      * @returns {Observable<void>} Success or error
      */
-    changePassword(passwordNew: string, passwordOld: string): Observable<void> {
+    changePassword(changePassword: any): Observable<void> {
         return this.http
             .post<void>(this.contextUrl + '/changePassword', {
-                passwordNew: passwordNew,
-                passwordOld: passwordOld
+                email:       changePassword.email,
+                passwordNew: changePassword.passwordNew,
+                passwordOld: changePassword.passwordOld
             })
             .pipe(
                 map(response => response)

@@ -77,7 +77,7 @@ export class ProfileComponent implements OnInit {
         const passwordOld = hash.digest('hex');
 
         // Change password
-        this.securityService.changePassword(passwordNew, passwordOld).subscribe(data => {
+        this.securityService.changePassword({email: this.user.email,passwordNew: passwordNew, passwordOld: passwordOld}).subscribe(data => {
             this.passwordOld = null;
             this.passwordNew = '';
             this.passwordNewConfirm = '';

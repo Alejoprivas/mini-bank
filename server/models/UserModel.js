@@ -48,6 +48,7 @@ const UserModel = {
             const hash = crypto
               .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
               .toString('hex');
+              console.log(hash)
             return this.hash === hash;
         };
 
@@ -76,12 +77,7 @@ const UserModel = {
         //newUser.save();
         return await newUser.save();
     },
-    async changePassword(email,oldPassWord,newPassWord){
-        let user = await UserModel.model.findOne({email:email});
-        let result = await user.validPassword(oldPassWord) ? await user.setPassword(newPassWord) : false;
-        console.log('newPassWordSet', token);
-        return result;
-    },
+    
     async getUser(id) {
         let result = await Database.getConnection().models.User.findByPk(id, {
             attributes: {
@@ -97,12 +93,12 @@ const UserModel = {
         
         let user = await UserModel.model.findOne({email:email});
         let token = await user.validPassword(password) ? await user.generateJwt() : false;
-        console.log('token', token);
+        //console.log('token', token);
         //let login = user
         user.hash = undefined;
         user.salt = undefined;
         user.token = token;
-        console.log(user.token)
+        //console.log(user.token)
         return token? user: false;
         //*/ 
         /*
@@ -130,6 +126,15 @@ const UserModel = {
     },
     async remove(id) { 
         await UserModel.model.findOneAndRemove({ _id: id }).exec(); 
+    },
+    /**
+     * Update password
+     */
+    async updatePassword (idUser, password) {
+      let user = await UserModel.model.findOneAndUpdate({ _id: idUser }, {
+        password: password
+      });
+      return user;
     }
   
 }

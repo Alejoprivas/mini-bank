@@ -103,19 +103,24 @@ const securityControllers = {
   changePassword: async (req, res) => {
     try {
       // Retrieve user
-      let user = await UserModel.getByUsernameAndPassword(
-        req.user.username,
+      
+      let user = await UserModel.getByEmailAndPassword(
+        req.body.email,
         req.body.passwordOld
       );
+      //console.log(user)
       if (!user) {
         throw new Errors.OLD_PWD_NOT_VALID();
       }
-
-      await UserModel.changePassword(req.user.username,req.body.passwordOld, req.body.passwordNew);
+      user.setPassword(req.body.passwordNew)
+      console.log(req.user)
+      user.save()
+      //await UserModel.updatePassword(user._id, user.hash);
       res.json({
         success: true
       });
     } catch (err) {
+      const safeErr = ErrorManager.getSafeError(err);
       res.status(400).json(safeErr);
     }
   }

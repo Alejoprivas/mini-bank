@@ -74,7 +74,20 @@ export class RegisterComponent implements OnInit {
         //*/
     }
   }
+
+  onBlur(){
+    let v = this.registerForm.rut?this.registerForm.rut.slice(-1):false;
+    if(v){
+      let valor = this.registerForm.rut.replace(/\./g,'');
+      console.log(this.registerForm.rut.replace(/\./g,''))  
+    
+      valor = valor.replace(/-/g,'');
+      this.registerForm.rut = valor.slice(0,valor.length-1) + '-' + v
+    };
+  }
+
   private setUser(user: User) {
       store.setUser(user);
   }
+  
 }
