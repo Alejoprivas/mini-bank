@@ -8,8 +8,8 @@ import { UserService } from '../../services';
 import { AuthenticationService } from '../authentication.service';
 import { store } from '../current-user';
 import { SecurityService } from '../services/security.service';
-class RegisterForm{
-  
+class RegisterForm {
+
   public email?: string;
   public rut?: string;
   public password?: string;
@@ -19,7 +19,7 @@ class RegisterForm{
     rut?: string,
     password?: string,
     repassword?: string
-  ){
+  ) {
     this.email = email;
     this.rut = rut;
     this.password = password;
@@ -32,49 +32,46 @@ class RegisterForm{
   styleUrls: ['./register.component.sass']
 })
 export class RegisterComponent implements OnInit {
-  registerForm: RegisterForm = new RegisterForm(null,null,null);//new User(null, null, null, null);
+  registerForm: RegisterForm = new RegisterForm(null, null, null);//new User(null, null, null, null);
   showError: boolean;
-  
+
   constructor(
-      private securityService: SecurityService,
-      private router: Router,
-      private userService: UserService
-  ) {}
+    private securityService: SecurityService,
+    private router: Router,
+    private userService: UserService
+  ) { }
   ngOnInit() {
   }
 
   register(form: NgForm) {
     //console.log(form)
     if (form.valid) {
-        const hash = new SHA3(512);
-        hash.update(this.registerForm.password);
-        const sha3pass = hash.digest('hex');
-        let user: User = form.value;
-        user.password = sha3pass;
-        console.log(user)
-        
-        this.userService.register(user).subscribe(response=>{
-            console.log(response);
-            this.showError = false;
-            //this.router.navigate(['/main']);
-            this.securityService.login(response.email,user.password,false).subscribe(
-              response=>{
-                //console.log(response);
-                this.router.navigate(['/main']);
-                this.setUser(user);
+      const hash = new SHA3(512);
+      hash.update(this.registerForm.password);
+      const sha3pass = hash.digest('hex');
+      let user: User = form.value;
+      user.password = sha3pass;
+      this.userService.register(user).subscribe(response => {
+        this.showError = false;
+        //this.router.navigate(['/main']);
+        this.securityService.login(response.email, user.password, false).subscribe(
+          response => {
+            //console.log(response);
+            this.router.navigate(['/main']);
+            // this.setUser(user);
 
-              }
-            )
-
-          },
-          error=>{
-            this.showError=true;
           }
         )
-        //*/
+
+      },
+        error => {
+          this.showError = true;
+        }
+      )
+      //*/
     }
   }
   private setUser(user: User) {
-      store.setUser(user);
+    store.setUser(user);
   }
 }
