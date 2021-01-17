@@ -45,11 +45,11 @@ const TransactionModel = {
         }
         return result;
     },
-    async withdrawal(accountNumber,amount) {
+    async withdrawal(sourceAccount,destinationAccount,amount) {
         const transaction = {
             tipo:'withdrawal',
-            source : accountNumber,
-            destination : accountNumber,
+            source : sourceAccount,
+            destination : destinationAccount,
             balance : amount,
             state : 'done'
         }
@@ -63,17 +63,23 @@ const TransactionModel = {
         }
         return result;
     },
-    async withdraw(account,amount) {
-        var newUser = new UserModel.model(user);
-        newUser.setPassword(user.password);
-        newUser.account.push({balance:1000});
-        newUser.account.push({balance:0});
-        return await newUser.save();
-    },
-    async transfer(account,destination,amount) {
-
-        ///await TransactionModel.model.
-        return null;
+    async transfer(source,destination,amount) {
+        const transaction = {
+            tipo:'transfer',
+            source : source,
+            destination : destination,
+            balance : amount,
+            state : 'done'
+        }
+        let result = null;
+        try{
+            var newtransaction = new TransactionModel.model(transaction);
+            result = await newtransaction.save();
+        }catch(e){
+            console.log(e);
+            result = false;
+        }
+        return result;
     },     
 }
 

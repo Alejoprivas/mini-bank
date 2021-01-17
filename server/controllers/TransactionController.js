@@ -14,6 +14,7 @@ const TransactionController = {
        // custom route
        router.post(baseUrl + '/makeDeposit' , TransactionController.makeDeposit);
        router.post(baseUrl + '/makeWithdrawal' , TransactionController.makeWithdrawal);
+       router.post(baseUrl + '/transferMoney' , TransactionController.transferMoney);
         },
         makeDeposit: async (req, res) => {
             try {
@@ -29,12 +30,8 @@ const TransactionController = {
                     throw new Error('Invalid parameter');
                   }
                   decoded = jsonwebtoken.verify(token, Properties.JWT_SECRET);
-                  let clientAccounts = await UserModel.getAccounts(decoded.rut);
-                  let selectedAccount = clientAccounts.find((account)=>{
-                    return account._id == accountNumber;
-                  });
-                  updateAccount = await UserModel.updateBalance(decoded.rut,selectedAccount,depositAmount);
-                  transaction = updateAccount ? await TransactionModel.deposit(selectedAccount._id , depositAmount) : false;
+                  updateAccount = await UserModel.updateBalance(decoded.rut,accountNumber,depositAmount);
+                  transaction = updateAccount ? await TransactionModel.deposit(accountNumber , depositAmount) : false;
                   } catch (err) {
                     console.log(err)
                   return res.json({
@@ -64,12 +61,8 @@ const TransactionController = {
                   throw new Error('Invalid parameter');
                 }
                 decoded = jsonwebtoken.verify(token, Properties.JWT_SECRET);
-                let clientAccounts = await UserModel.getAccounts(decoded.rut);
-                let selectedAccount = clientAccounts.find((account)=>{
-                  return account._id == accountNumber;
-                });
-                updateAccount = await UserModel.updateBalance(decoded.rut,selectedAccount,withdrawalAmount);
-                transaction = updateAccount ? await TransactionModel.withdrawal(selectedAccount._id , withdrawalAmount) : false;
+                updateAccount = await UserModel.updateBalance(decoded.rut,accountNumber,withdrawalAmount);
+                transaction = updateAccount ? await TransactionModel.withdrawal(accountNumber , Math.abs(withdrawalAmount)) : false;
                 } catch (err) {
                 return res.json({
                   success: false,
@@ -84,7 +77,47 @@ const TransactionController = {
           } catch (err) {
             res.status(400).json({code:500});
           }
-      },             
+      },
+      transferMoney: async (req, res) => {
+        try {
+          let token = req.headers.authorization.replace("Bearer ", "");
+          let sourceAccount = req.body.sourceAccount;
+          let rutDestination = req.body.rutDestination;
+          let destinationAccount = req.body.destinationAccount;
+          let transferAmount = (req.body.transferAmount * -1);
+          if (token) {
+            let decoded,transaction,updateSourceAccount,updateDesitnationAccount = null;  
+            try {
+              let checkIfPositive = Math.sign(transferAmount) > 0 ? transferAmount : false;
+              if(checkIfPositive){
+                throw new Error('Invalid parameter');
+              }
+              decoded = jsonwebtoken.verify(token, Properties.JWT_SECRET);
+
+              console.log(decoded.rut,rutDestination,sourceAccount,destinationAccount,transferAmount);
+              updateSourceAccount = await UserModel.updateBalance(decoded.rut,sourceAccount,transferAmount);
+              if(updateSourceAccount){
+                console.log('updating Dest')
+                updateDesitnationAccount = await UserModel.updateBalance(rutDestination,destinationAccount,Math.abs(transferAmount));
+              }
+              transaction = updateSourceAccount && updateDesitnationAccount ? await TransactionModel.transfer(sourceAccount,destinationAccount,Math.abs(transferAmount)) : false;
+              } catch (err) {
+                console.log(err)
+              return res.json({
+                success: false,
+                mesage: "Failed to perform operation"
+              });
+            }
+            res.json({data:transaction ? transaction : false ,code:200});
+          } else {
+              console.log('Error');
+            throw {msg:"Ocurrio un error durante la transacción",error:500};
+          }
+        } catch (err) {
+          res.status(400).json({code:500});
+        }
+    },
+                       
   };
 
 export default TransactionController;

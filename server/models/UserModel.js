@@ -79,17 +79,17 @@ const UserModel = {
             ); 
         };
 
-        UserSchema.methods.updateAccountBalance = function(account,newBalance){
+        UserSchema.methods.updateAccountBalance = function(accountNumber,newBalance){
           let isPositive = Math.sign(newBalance);
           let canPerformtransaction = true;
           if(isPositive <= 0 ){
             //check if balance is greater then withdraw amount 
-            if(this.account.id(account._id).balance <= Math.abs(newBalance)){
+            if(this.account.id(accountNumber).balance <= Math.abs(newBalance)){
               canPerformtransaction = false;
             }
           }
           if(canPerformtransaction){
-            this.account.id(account._id).balance = this.account.id(account._id).balance + newBalance;
+            this.account.id(accountNumber).balance = this.account.id(accountNumber).balance + newBalance;
           }
           return canPerformtransaction; 
       }  
