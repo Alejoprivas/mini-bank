@@ -13,7 +13,8 @@ import Database from "./Database.js";
 
 import UserController from "../controllers/UserController";
 import securityControllers from "../controllers/AuthController.js";
-import AccountController from "../controllers/AccountController"
+import AccountController from "../controllers/AccountController";
+import TransactionController from "../controllers/TransactionController";
 //Controllers
 
 class Server{
@@ -40,6 +41,7 @@ class Server{
         securityControllers.init(router);
         UserController.init(router);
         AccountController.init(router);
+        TransactionController.init(router);
         this.app.use("/",router);
 
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/account/account';
-import { TransactionsService } from 'src/app/core/services/accounts.service'
+import { TransactionsService } from 'src/app/core/services/transactions.service';
 @Component({
   selector: 'app-deposito',
   templateUrl: './deposito.component.html',

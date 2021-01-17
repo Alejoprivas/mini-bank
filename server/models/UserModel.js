@@ -3,7 +3,6 @@ import crypto from 'crypto';
 import mongoose, {Schema} from "mongoose";
 import Properties from "../properties";
 import jwt  from 'jsonwebtoken';
-import AccountModel from './AccountModel';
 const UserModel = {
     init(){
         const db = Database;
@@ -41,8 +40,8 @@ const UserModel = {
             this.hash = crypto
               .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
               .toString('hex');
-          };
-               
+        };
+             
         UserSchema.methods.validPassword = function(password) {
             const hash = crypto
               .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
@@ -79,9 +78,23 @@ const UserModel = {
             ); 
         };
 
+        UserSchema.methods.updateAccountBalance = function(account,newBalance){
+          let result = null;
+          console.log('account',this.account.id(account._id));
+          if(this.account.id(account._id).balance >= newBalance){
+            this.account.id(account._id).balance = this.account.id(account._id).balance + newBalance;
+            console.log(this.account.id(account._id));
+            result = true;
+          }else{
+            result = false;
+          }
+          console.log('done');
+          return result; 
+      }  
+
         UserModel.model= mongoose.model('User',UserSchema); 
         
-        return UserSchema
+        return UserSchema;
     }, 
     async registerUser(user) {
         var newUser = new UserModel.model(user);
@@ -110,6 +123,14 @@ const UserModel = {
         let account = user.account;
         return account? account: false;
     },
+    async updateBalance(rut,accountNumber,newBalance){
+      let user = await UserModel.model.findOne({rut:rut},{});
+      let isValid = user.updateAccountBalance(accountNumber,newBalance);
+      if(isValid){
+        await user.save();
+      }
+      return isValid? isValid: false;
+    },    
     async createBulk(userBulk) {
         await UserModel.model.insertMany(userBulk, function (err, docs) {
             if (err){ 
@@ -118,7 +139,6 @@ const UserModel = {
               console.log("Inserted many");
             }
           });
-        
     },
     async remove(id) { 
         await UserModel.model.findOneAndRemove({ _id: id }).exec(); 

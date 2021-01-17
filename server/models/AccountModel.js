@@ -10,11 +10,23 @@ const AccountModel = {
             tipo: String, 
             balance:Number,
         });
-        AccountSchema.model= mongoose.model('Account',AccountSchema); 
-        
+        AccountModel.model= mongoose.model('Account',AccountSchema); 
+
+        AccountSchema.methods.updateBalance = function(accountNumber,newBalance){
+            let selectedAccount = this.account.find((account)=>{
+              return account._id == accountNumber;
+            });
+            selectedAccount.balance = selectedAccount.balance + transaction.balance;
+            return selectedAccount.balance; 
+        }  
         return AccountSchema;
     }, 
-
+    async updateBalance(accountNumber,newBalance){
+        let account = await AccountModel.model.find({});
+        //let result = await account.updateBalance(accountNumber,newBalance);
+        console.log('result', account);
+        return account;
+    },
 }
 
 
