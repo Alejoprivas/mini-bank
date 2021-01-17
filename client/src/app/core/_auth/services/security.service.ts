@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../../../models/user';
 import { shareReplay, map, tap } from 'rxjs/operators';
 
@@ -25,7 +25,9 @@ export class SecurityService {
      * @returns {Observable<User>} logged user
      */
     login(username: string, password: string, remember: boolean): Observable<User> {
-        return this.http.post<User>(this.contextUrl + '/login', { username: username, password: password })
+        return this.http.post<User>(this.contextUrl + '/login',
+            { username: username, password: password }
+        )
             .pipe(
                 tap(user => this.setSession(user.token)),
                 tap(user => { if (remember) this.setLocal(user.token); }),

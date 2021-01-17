@@ -1,9 +1,80 @@
-<p>deposito works!</p>
 <div class="row">
-    <div class="col-md-12">
-        
-        <div class="d-flex justify-content-between">
-            <button type="menu" class="mx-1 btn btn-info"    [routerLink]="['/main']">volver</button>    
-        </div>
+  <div class="col-md-12">
+    <div class="jumbotron">
+      <h2>
+        Depositar
+      </h2>
+      <p>
+        Los pasos para depositar en su cuenta son los siguientes:
+      </p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          1- Seleccione su cuenta a la cual desea depositar dinero.
+        </li>
+        <li class="list-group-item">
+          2- Llene el formulario con el monto a insertar.
+        </li>
+        <li class="list-group-item">
+          3- Presioné el botón depositar y inserte el dinero en la ranura.
+        </li>
+      </ul>
     </div>
+  </div>
+</div>
+<div class="row mb-4">
+  <div class="col-md-12 ">
+    <h1>Seleccione cuenta:</h1>
+    <app-balance (selectCuentaEvent)="getSelectedCuenta($event)"></app-balance>
+  </div>
+</div>
+<div class="row">
+  <div *ngIf="selectedCuenta" class="col-md-12">
+    <h1>Ingrese monto a depositar:</h1>
+    <form *ngIf="selectedCuenta">
+      <div class="form-group row">
+        <label for="text" class="col-4 col-form-label"
+          ><b>Numero cuenta:</b></label
+        >
+        <div class="col-8">
+          <p>{{ selectedCuenta._id }}</p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="text" class="col-4 col-form-label"
+          ><b>Saldo disponible:</b></label
+        >
+        <div class="col-8">
+          <p>{{ selectedCuenta.balance }}</p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="text" class="col-4 col-form-label"><b>Cantidad:</b></label>
+        <div class="col-8">
+          <input
+            id="text"
+            [(ngModel)]="depositAmount"
+            name="text"
+            type="number"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-4 col-8">
+          <button name="submit" type="submit" class="btn btn-primary">
+            Depositar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="d-flex justify-content-between">
+      <button type="menu" class="mx-1 btn btn-info" [routerLink]="['/main']">
+        volver
+      </button>
+    </div>
+  </div>
 </div>

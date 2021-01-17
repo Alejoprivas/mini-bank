@@ -49,24 +49,11 @@ const securityControllers = {
         // Error login
         throw new Errors.INVALID_LOGIN();
       }
-      /*
-      if (user) {
-        // Create token
-        console.log(user)
-        var token = jsonwebtoken.sign(user, Properties.JWT_SECRET, { expiresIn: '1h' });
-        user.token = token;
-        user.password = undefined;
-        res.send(user);
-      } else {
-        // Error login
-        throw new Errors.INVALID_LOGIN();
-      }//*/
     } catch (err) {
       console.log(err)
       res.status(500).json({ status: 500, message: "Unknown server error" });;
     }
   },
-
   /**
    * Verify JWT Token function
    *
@@ -74,12 +61,14 @@ const securityControllers = {
   verifyToken: async (req, res) => {
     try {
       let token = req.body.token;
+      console.log(token);
       //console.log('token',token)
       if (token) {
         let decoded = null;
         try {
           decoded = jsonwebtoken.verify(token, Properties.JWT_SECRET);
-        } catch (err) {
+          console.log(decoded);
+          } catch (err) {
           return res.json({
             success: false,
             mesage: "Failed to authenticate token"

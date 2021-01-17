@@ -1,31 +1,32 @@
 
-import { UserBase } from './user.base';
 
-/**
- * YOU CAN OVERRIDE HERE UserBase.ts
- */
-export class User extends UserBase {
+import { Account } from '../account/account';
 
-    // Insert here your custom attributes and function
+export class User {
 
-    // Functions for User
+    public _id: string;
+    public email?: string;
+    public name?: string;
+    public password: string;
+    public roles?: string[];
+    public surname?: string;
+    public username: string;
 
     public token: string;
-    public balance: string;
+    public account?: Account[];
 
     constructor(
         _id?: string,
         username?: string,
         token?: string,
         roles?: string[],
-        balance?: string
+        account?: Account[]
     ) {
-        super();
         this._id = _id;
         this.username = username;
         this.token = token;
         this.roles = roles;
-        this.balance = balance;
+        this.account = account;
     }
 
     isAdmin(): boolean {

@@ -6,7 +6,7 @@ import jwt  from 'jsonwebtoken';
 const UserModel = {
     init(){
         const db = Database;
-        
+        var AccountSchema = mongoose.model('Account').schema;
         const UserSchema = new mongoose.Schema({            
         rut: {
             type: "String",
@@ -24,26 +24,24 @@ const UserModel = {
         salt:{
             type: "String"
         },
-        balance: {
-            type: "String"
-        },
-        },{
-          toJSON: { virtuals: true },
-          toObject: { virtuals: true }
-        });
+        account: [AccountSchema],
+    },{
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+      });
 
-        UserSchema.virtual('token').get(function () {
-          return this.__token;
-        }).set(function (token) {
-          this.__token = token;
-        });; 
+      UserSchema.virtual('token').get(function () {
+        return this.__token;
+      }).set(function (token) {
+        this.__token = token;
+      });
         UserSchema.methods.setPassword = function(password) {
             this.salt = crypto.randomBytes(16).toString('hex');
             this.hash = crypto
               .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
               .toString('hex');
-        };     
-
+        };
+             
         UserSchema.methods.validPassword = function(password) {
             const hash = crypto
               .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
@@ -51,7 +49,6 @@ const UserModel = {
               console.log(hash)
             return this.hash === hash;
         };
-
         UserSchema.methods.generateJwt = function() {
             const expiry = new Date();
             expiry.setDate(expiry.getDate() + 7);          
@@ -60,23 +57,54 @@ const UserModel = {
                 _id: this._id,
                 email: this.email,
                 rut: this.rut,
-                balance: this.balance,
+                account: this.account,
                 exp: parseInt(expiry.getTime() / 1000)
               },
               Properties.JWT_SECRET
             ); 
           };
+        
+        UserSchema.methods.registerAccount = function() {
+            const expiry = new Date();
+            expiry.setDate(expiry.getDate() + 7);          
+            return jwt.sign(
+              {
+                _id: this._id,
+                email: this.email,
+                rut: this.rut,
+                account: this.account,
+                exp: parseInt(expiry.getTime() / 1000)
+              },
+              Properties.JWT_SECRET
+            ); 
+        };
+
+        UserSchema.methods.updateAccountBalance = function(account,newBalance){
+          let result = null;
+          console.log('account',this.account.id(account._id));
+          if(this.account.id(account._id).balance >= newBalance){
+            this.account.id(account._id).balance = this.account.id(account._id).balance + newBalance;
+            console.log(this.account.id(account._id));
+            result = true;
+          }else{
+            result = false;
+          }
+          console.log('done');
+          return result; 
+      }  
+
         UserModel.model= mongoose.model('User',UserSchema); 
         
-        return UserSchema
+        return UserSchema;
     }, 
     async registerUser(user) {
         var newUser = new UserModel.model(user);
-        newUser.balance = 0;
         newUser.setPassword(user.password);
-        //newUser.save();
+        newUser.account.push({balance:1000});
+        newUser.account.push({balance:0});
         return await newUser.save();
     },
+<<<<<<< HEAD
     
     async getUser(id) {
         let result = await Database.getConnection().models.User.findByPk(id, {
@@ -88,32 +116,45 @@ const UserModel = {
           let roles = await result.getRoles({ raw: true });
           result.dataValues.roles = roles.map(item => item.role);
           return result;
+=======
+    async changePassword(email,oldPassWord,newPassWord){
+        let user = await UserModel.model.findOne({email:email});
+        let result = await user.validPassword(oldPassWord) ? await user.setPassword(newPassWord) : false;
+        console.log('newPassWordSet', token);
+        return result;
+>>>>>>> f68ef816c5c40dae26e7df163c746e8c0aab88da
     },
     async getByEmailAndPassword(email,password){
-        
-        let user = await UserModel.model.findOne({email:email});
+        let user = await UserModel.model.findOne({email:email},{});
         let token = await user.validPassword(password) ? await user.generateJwt() : false;
+<<<<<<< HEAD
         //console.log('token', token);
         //let login = user
         user.hash = undefined;
         user.salt = undefined;
         user.token = token;
         //console.log(user.token)
+=======
+        user.hash = undefined;
+        user.salt = undefined;
+        user.token = token;
+>>>>>>> f68ef816c5c40dae26e7df163c746e8c0aab88da
         return token? user: false;
-        //*/ 
-        /*
-          .findOne({
-            email: email,
-            hash: password
-          })
-          .lean();
-
-        if (result) user.hash = undefined;
-        return user;
-        
-         //*/
           
     },
+    async getAccounts(rut){
+        let user = await UserModel.model.findOne({rut:rut},{});
+        let account = user.account;
+        return account? account: false;
+    },
+    async updateBalance(rut,accountNumber,newBalance){
+      let user = await UserModel.model.findOne({rut:rut},{});
+      let isValid = user.updateAccountBalance(accountNumber,newBalance);
+      if(isValid){
+        await user.save();
+      }
+      return isValid? isValid: false;
+    },    
     async createBulk(userBulk) {
         await UserModel.model.insertMany(userBulk, function (err, docs) {
             if (err){ 
@@ -122,7 +163,6 @@ const UserModel = {
               console.log("Inserted many");
             }
           });
-        
     },
     async remove(id) { 
         await UserModel.model.findOneAndRemove({ _id: id }).exec(); 

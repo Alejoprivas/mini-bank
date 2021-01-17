@@ -1,10 +1,41 @@
-<p>retiro works!</p>
-
 <div class="row">
-    <div class="col-md-12">
-        
-        <div class="d-flex justify-content-between">
-            <button type="menu" class="mx-1 btn btn-info"    [routerLink]="['/main']">volver</button>    
+  <div class="col-md-12">
+    <form>
+      <div class="form-group row">
+        <label for="text" class="col-4 col-form-label">Cuenta</label>
+        <div class="col-8">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <i class="fa fa-address-card"></i>
+              </div>
+            </div>
+            <input id="text" name="text" type="text" class="form-control" />
+          </div>
         </div>
+      </div>
+      <div class="form-group row">
+        <label for="text" class="col-4 col-form-label">Cantidad</label>
+        <div class="col-8">
+          <input id="text" name="text" type="text" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-4 col-8">
+          <button name="submit" type="submit" class="btn btn-primary">
+            Retirar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="d-flex justify-content-between">
+      <button type="menu" class="mx-1 btn btn-info" [routerLink]="['/main']">
+        volver
+      </button>
     </div>
+  </div>
 </div>

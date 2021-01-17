@@ -20,7 +20,6 @@ const UserController = {
           console.log(UserModel);
           res.send('Test');
         } catch (err) {
-          //console.log(err)
           const safeErr = ErrorManager.getSafeError(err);
           res.status(safeErr.status).json(safeErr);
           //res.status(500).json("Error");
@@ -30,8 +29,6 @@ const UserController = {
       post: async (req,res) => {
         try {
           let user = await UserModel.registerUser(req.body);
-          //console.log(UserModel);
-          //console.log(req.body);
           user.salt = undefined;
           user.hash = undefined;
           
@@ -39,8 +36,6 @@ const UserController = {
         } catch (err) {
           const safeErr = ErrorManager.getSafeError(err);
           res.status(safeErr.status).json(safeErr);
-          //console.log('error',err)
-          //res.status(500).json("Error");
         }
       },
       remove: async (req,res) => {

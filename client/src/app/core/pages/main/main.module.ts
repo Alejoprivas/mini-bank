@@ -8,6 +8,8 @@ import { RetiroComponent } from '../../components/retiro/retiro.component';
 import { TransferirComponent } from '../../components/transferir/transferir.component';
 import { PrincipalComponent } from '../../components/principal/principal.component';
 import { DepositoComponent } from '../../components/deposito/deposito.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,7 +17,9 @@ import { DepositoComponent } from '../../components/deposito/deposito.component'
   declarations: [MainComponent, BalanceComponent, ConsultaComponent, RetiroComponent, TransferirComponent, PrincipalComponent, DepositoComponent],
   imports: [
     CommonModule,
-    MainRoutingModule
+    MainRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class MainModule { }

@@ -1,16 +1,41 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="d-flex" style="margin-top:1em">
+      <button
+        type="menu"
+        class="mx-1 btn btn-primary"
+        [routerLink]="['deposito']"
+      >
+        Depositar
+      </button>
+      <button
+        type="menu"
+        class="mx-1 btn btn-primary"
+        [routerLink]="['retiro']"
+      >
+        Retirar
+      </button>
+      <button
+        type="menu"
+        class="mx-1 btn btn-success"
+        [routerLink]="['transferencia']"
+      >
+        Transferir
+      </button>
+      <button type="menu" class="mx-1 btn btn-info" [routerLink]="['consulta']">
+        consultar
+      </button>
+    </div>
+  </div>
+</div>
 
 <div class="row">
-    <div class="col-md-6">
-        <app-balance></app-balance>
-    </div>
+  <div class="col-md-12">
+    <app-balance></app-balance>
+  </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="d-flex">
-            <button type="menu" class="mx-1 btn btn-primary" [routerLink]="['deposito']">Depositar</button>
-            <button type="menu" class="mx-1 btn btn-primary" [routerLink]="['retiro']">Retirar</button>            
-            <button type="menu" class="mx-1 btn btn-success" [routerLink]="['transferencia']">Transferir</button>
-            <button type="menu" class="mx-1 btn btn-info"    [routerLink]="['consulta']">consultar</button>    
-        </div>
-    </div>
+  <div class="col-md-6">
+    <h1>Transacciones:</h1>
+  </div>
 </div>
