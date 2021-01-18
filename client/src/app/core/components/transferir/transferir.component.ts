@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TransactionsService } from '../../services/transactions.service';
 
 class TransferForm {
 
@@ -25,17 +27,16 @@ class TransferForm {
   styleUrls: ['./transferir.component.sass']
 })
 export class TransferirComponent implements OnInit {
-  
+  comprobante=null;
   transferForm: TransferForm = new TransferForm(null,null,null,null);
-  selectedCuenta: null;
-  depositAmount: 0;
-  constructor() { }
+  constructor(private transactionService: TransactionsService,
+              private router: Router) { }
 
   ngOnInit() {
   }
 
   getSelectedCuenta(cuenta) {
-    this.selectedCuenta = cuenta;
+    this.transferForm.orCuenta = cuenta._id;
   }
   
 
@@ -49,8 +50,22 @@ export class TransferirComponent implements OnInit {
       this.transferForm.dstRut = valor.slice(0,valor.length-1) + '-' + v
     };
   }
+
   transferMoney(form: NgForm) {
-    console.log('Cuenta destino', this.transferForm);
-    console.log('Cuenta origen', this.selectedCuenta)
+    //console.log(form);
+    if(form.valid){
+      let trsData = form.value;
+      console.log(this.transferForm);
+      
+      this.transactionService.transfer(this.transferForm.orCuenta,this.transferForm.dstRut,this.transferForm.dstCuenta,this.transferForm.monto).subscribe(Response=>{
+        //this.router.navigate(['/main']);ç
+        if(Response.data.state=='done'){
+          this.comprobante = Response.data;
+        }
+      })
+      //*/
+    } 
+    //console.log('Cuenta destino', this.transferForm);
+    //console.log('Cuenta origen', this.selectedCuenta)
   }
 }

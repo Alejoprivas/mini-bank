@@ -17,6 +17,7 @@ export class BalanceComponent implements OnInit {
     this.accountService.getAccounts().subscribe(Accounts => {
       this.cuentas = Accounts;
       this.selectedCuenta = Accounts[0];
+      this.selectCuentaEvent.emit(this.selectedCuenta);
     });
   }
   public selectAccount(index) {

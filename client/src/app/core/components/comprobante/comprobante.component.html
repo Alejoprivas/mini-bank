@@ -1,0 +1,28 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Comprobante: #{{comprobante._id}}</h3>
+        <div class="card" >
+            <div class="card-body">
+                <h5 class="card-title">{{comprobante.tipo}}</h5>
+                <h6>Datos origen</h6>
+                <p class="card-text"><b>Num cuenta:</b>{{comprobante.source}} </p>
+                <h6>Datos destino</h6>
+                <p class="card-text"><b>Num cuenta:</b>{{comprobante.destination}} </p>
+                <p class="card-text"><b>Monto:</b> {{comprobante.balance}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between">
+        <button type="menu" class="mx-1 btn btn-info" [routerLink]="['/main']">
+          volver
+        </button>
+        
+      </div>
+    </div>
+</div>

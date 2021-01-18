@@ -52,7 +52,8 @@ const TransactionController = {
           try {
             let token = req.headers.authorization.replace("Bearer ", "");
             let accountNumber = req.body.accountNumber;
-            let withdrawalAmount = req.body.withdrawalAmount;
+            let withdrawalAmount = req.body.withdrawalAmount*-1;
+            
             if (token) {
               let decoded,transaction,updateAccount = null;  
               try {
@@ -62,11 +63,12 @@ const TransactionController = {
                 }
                 decoded = jsonwebtoken.verify(token, Properties.JWT_SECRET);
                 updateAccount = await UserModel.updateBalance(decoded.rut,accountNumber,withdrawalAmount);
-                transaction = updateAccount ? await TransactionModel.withdrawal(accountNumber , Math.abs(withdrawalAmount)) : false;
+                transaction = updateAccount ? await TransactionModel.withdrawal(accountNumber , accountNumber ,Math.abs(withdrawalAmount)) : false;
                 } catch (err) {
                 return res.json({
                   success: false,
-                  mesage: "Failed to perform operation"
+                  mesage: "Failed to perform operation "+err,
+                  data: { state: "fail"}
                 });
               }
               res.json({data:transaction ? transaction : false ,code:200});

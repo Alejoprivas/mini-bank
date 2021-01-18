@@ -9,13 +9,20 @@ import { TransactionsService } from 'src/app/core/services/transactions.service'
 export class DepositoComponent implements OnInit {
   selectedCuenta: null;
   depositAmount: 0;
-  constructor() {
+  comprobante = null;
+  constructor(public transactionService: TransactionsService) {
   }
   getSelectedCuenta(cuenta) {
     this.selectedCuenta = cuenta;
   }
   depositMoney() {
-
+    this.transactionService.deposit(this.selectedCuenta,this.depositAmount).subscribe(Response=>{
+      if(Response.data.state=='done'){
+        this.comprobante = Response.data;
+        console.log(this.comprobante)
+      }
+    })
+      
   }
   ngOnInit() {
   }

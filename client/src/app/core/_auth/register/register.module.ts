@@ -5,18 +5,16 @@ import { RegisterRoutingModule } from './register-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompareDirective } from '../directives/compare-password.directive';
 import { UserService } from '../../services';
-import { RutValidateDirective } from '../directives/rut-validate.directive';
-import { RutlimitDirective } from '../directives/rut-limit.directive';
-
+import { DirectivesModule } from 'src/app/directives.module';
 
 
 @NgModule({
-  declarations: [RegisterComponent,CompareDirective,RutValidateDirective,RutlimitDirective],
-  exports: [CompareDirective,RutValidateDirective],
+  declarations: [RegisterComponent,CompareDirective],
   imports: [
     CommonModule,
     RegisterRoutingModule,
-    FormsModule        
+    FormsModule,
+    DirectivesModule
   ],
   providers: [UserService]
 })

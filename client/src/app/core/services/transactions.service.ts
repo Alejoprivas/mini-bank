@@ -9,26 +9,27 @@ import { environment } from 'src/environments/environment';
 export class TransactionsService {
 
   constructor(private http: HttpClient) { }
-  contextUrl: string = environment.apiUrl + '/transactions';
+  contextUrl: string = environment.apiUrl + '/transaction';
   deposit(accountId, amount): Observable<any> {
-    return this.http.post<any>(`${this.contextUrl}/deposit`, {
-      accountId,
-      amount
+    return this.http.post<any>(`${this.contextUrl}/makeDeposit`, {
+      accountNumber: accountId,
+      depositAmount: amount
     })
       .pipe(map(data => data));;
   }
   withdraw(accountId, amount): Observable<any> {
-    return this.http.post<any>(`${this.contextUrl}/withdraw`, {
-      accountId,
-      amount
+    return this.http.post<any>(`${this.contextUrl}/makeWithdrawal`, {
+      accountNumber: accountId,
+      withdrawalAmount: amount
     })
       .pipe(map(data => data));;
   }
-  transfer(source, destination, amount): Observable<any> {
-    return this.http.post<any>(`${this.contextUrl}/transfer`, {
-      source,
-      destination,
-      amount
+  transfer(source, rut, destination, amount): Observable<any> {
+    return this.http.post<any>(`${this.contextUrl}/transferMoney`, {
+      sourceAccount: source,
+      rutDestination: rut,
+      destinationAccount: destination,
+      transferAmount: amount
     })
       .pipe(map(data => data));;
   }

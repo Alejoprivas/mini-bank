@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RutValidateDirective } from '../../_auth/directives/rut-validate.directive';
 import { RutlimitDirective } from '../../_auth/directives/rut-limit.directive';
+import { DirectivesModule } from 'src/app/directives.module';
+import { ComprobanteComponent } from '../../components/comprobante/comprobante.component';
 
 
 
@@ -22,15 +24,13 @@ import { RutlimitDirective } from '../../_auth/directives/rut-limit.directive';
                  RetiroComponent, 
                  TransferirComponent, 
                  PrincipalComponent, 
-                 DepositoComponent,
-                 RutValidateDirective,
-                 RutlimitDirective],
-  exports: [RutlimitDirective],
+                 DepositoComponent, ComprobanteComponent],
   imports: [
     CommonModule,
     MainRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DirectivesModule
   ],
 
 })

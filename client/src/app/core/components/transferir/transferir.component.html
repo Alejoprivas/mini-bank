@@ -1,5 +1,5 @@
 
-<form #frm="ngForm">            
+<form #frm="ngForm" *ngIf="!comprobante">            
 <div class="row">
     <div class="col-md-12">
       <div class="jumbotron">
@@ -40,7 +40,7 @@
                     
                     <div class="form-group m-0" >
                         <label class="pull-left m-0" for="rut"><strong>rut</strong></label>
-                        <input type="text" (blur)="onBlur()" class="form-control" id="rut" [(ngModel)]="transferForm.dstRut" [rut-limit]="rut.value" name="rut" #rut="ngModel" rut required>
+                        <input type="text" (blur)="onBlur()" class="form-control" id="rut" [(ngModel)]="transferForm.dstRut" name="rut" #rut="ngModel" [rut-limit]="rut.value" rut required>
                     </div>
                 </div>
                 <div class="form-group row m-0">
@@ -119,6 +119,7 @@
       </form>
     </div>
   </div-->
+  
   <div class="row">
     <div class="col-md-12">
       <div class="d-flex justify-content-between">
@@ -134,3 +135,5 @@
   </div>
   
 </form>
+
+<app-comprobante [comprobante]="comprobante" *ngIf="comprobante"></app-comprobante>

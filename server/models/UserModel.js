@@ -82,6 +82,7 @@ const UserModel = {
         UserSchema.methods.updateAccountBalance = function(accountNumber,newBalance){
           let isPositive = Math.sign(newBalance);
           let canPerformtransaction = true;
+          console.log(newBalance, isPositive)
           if(isPositive <= 0 ){
             //check if balance is greater then withdraw amount 
             if(this.account.id(accountNumber).balance <= Math.abs(newBalance)){
