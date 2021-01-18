@@ -24,6 +24,7 @@ const TransactionController = {
             if (token) {
               let decoded,transactions = null;  
               try {
+                console.log(accountNumber);
                 transactions = await TransactionModel.getTransactions(accountNumber);
                 } catch (err) {
                   console.log(err)

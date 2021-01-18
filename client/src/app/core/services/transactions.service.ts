@@ -12,7 +12,8 @@ export class TransactionsService {
   contextUrl: string = environment.apiUrl + '/transaction';
 
   transactionHistory(accountId): Observable<any> {
-    return this.http.post<any>(`${this.contextUrl}/makeDeposit`, {
+    console.log(accountId);
+    return this.http.post<any>(`${this.contextUrl}/transactionHistory`, {
       accountNumber: accountId
     })
       .pipe(map(data => data));;

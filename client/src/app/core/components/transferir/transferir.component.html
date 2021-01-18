@@ -1,6 +1,5 @@
-
-<form #frm="ngForm" *ngIf="!comprobante">            
-<div class="row">
+<form #frm="ngForm" *ngIf="!comprobante">
+  <div class="row">
     <div class="col-md-12">
       <div class="jumbotron">
         <h2>
@@ -10,18 +9,19 @@
           Los pasos para depositar en su cuenta son los siguientes:
         </p>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                1- Seleccionar cuanta origen a transferir.
-            </li>
-            <li class="list-group-item">
-                2- Introduzca el rut de la cuenta destino y seleccionar a cuenta trasnferir.
-            </li>
-            <li class="list-group-item">
-                3- Llene el formulario con el monto a transferir.
-            </li>
-            <li class="list-group-item">
-                4- Presioné el botón transferir.
-            </li>
+          <li class="list-group-item">
+            1- Seleccionar cuenta origen a transferir.
+          </li>
+          <li class="list-group-item">
+            2- Introduzca el rut de la cuenta destino y seleccionar a cuenta
+            trasnferir.
+          </li>
+          <li class="list-group-item">
+            3- Llene el formulario con el monto a transferir.
+          </li>
+          <li class="list-group-item">
+            4- Presioné el botón transferir.
+          </li>
         </ul>
       </div>
     </div>
@@ -29,35 +29,66 @@
   <div class="row mb-4">
     <div class="col-md-6 ">
       <h3>Cuenta Origen:</h3>
-      
-      <app-balance (selectCuentaEvent)="getSelectedCuenta($event)"></app-balance>
+
+      <app-balance
+        (selectCuentaEvent)="getSelectedCuenta($event)"
+      ></app-balance>
     </div>
     <div class="col-md-6 ">
       <h3>Cuenta Destino:</h3>
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-                <div class="form-group row m-0">
-                    
-                    <div class="form-group m-0" >
-                        <label class="pull-left m-0" for="rut"><strong>rut</strong></label>
-                        <input type="text" (blur)="onBlur()" class="form-control" id="rut" [(ngModel)]="transferForm.dstRut" name="rut" #rut="ngModel" [rut-limit]="rut.value" rut required>
-                    </div>
-                </div>
-                <div class="form-group row m-0">
-                    
-                    <div class="form-group m-0" >
-                        <label class="pull-left m-0" for="nroCuenta"><strong>Nro. Cuenta</strong></label>
-                        <input type="text" class="form-control" id="cuenta" [(ngModel)]="transferForm.dstCuenta" name="dstCuenta" #dstCuenta="ngModel" required>
-                    </div>
-                </div>
-                <div class="form-group row m-0">
-                    
-                    <div class="form-group m-0" >
-                        <label class="pull-left m-0" for="monto"><strong>Monto</strong></label>
-                        <input type="number" class="form-control" id="monto" [(ngModel)]="transferForm.monto" name="monto" #monto="ngModel" required>
-                    </div>
-                </div>
-
+          <div class="form-group row m-0">
+            <div class="form-group m-0">
+              <label class="pull-left m-0" for="rut"
+                ><strong>rut</strong></label
+              >
+              <input
+                type="text"
+                (blur)="onBlur()"
+                class="form-control"
+                id="rut"
+                [(ngModel)]="transferForm.dstRut"
+                name="rut"
+                #rut="ngModel"
+                [rut-limit]="rut.value"
+                rut
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group row m-0">
+            <div class="form-group m-0">
+              <label class="pull-left m-0" for="nroCuenta"
+                ><strong>Nro. Cuenta</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="cuenta"
+                [(ngModel)]="transferForm.dstCuenta"
+                name="dstCuenta"
+                #dstCuenta="ngModel"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group row m-0">
+            <div class="form-group m-0">
+              <label class="pull-left m-0" for="monto"
+                ><strong>Monto</strong></label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="monto"
+                [(ngModel)]="transferForm.monto"
+                name="monto"
+                #monto="ngModel"
+                required
+              />
+            </div>
+          </div>
         </div>
       </div>
       <!-- <div class="card">
@@ -74,7 +105,6 @@
           </div>
         </div>
       </div> -->
-      
     </div>
   </div>
   <!--div class="row">
@@ -119,21 +149,27 @@
       </form>
     </div>
   </div-->
-  
+
   <div class="row">
     <div class="col-md-12">
       <div class="d-flex justify-content-between">
         <button type="menu" class="mx-1 btn btn-info" [routerLink]="['/main']">
           volver
         </button>
-        
-        <button type="menu" class="mx-1 btn btn-info" (click)="transferMoney(frm)">
-            transferir
+
+        <button
+          type="menu"
+          class="mx-1 btn btn-info"
+          (click)="transferMoney(frm)"
+        >
+          transferir
         </button>
       </div>
     </div>
   </div>
-  
 </form>
 
-<app-comprobante [comprobante]="comprobante" *ngIf="comprobante"></app-comprobante>
+<app-comprobante
+  [comprobante]="comprobante"
+  *ngIf="comprobante"
+></app-comprobante>
