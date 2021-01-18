@@ -21,7 +21,6 @@ const TransactionModel = {
     },
     async getTransactions(accountNumber) {
         let transferHistory = await TransactionModel.model.find({source:accountNumber});
-        console.log(transferHistory)
         return transferHistory ? transferHistory : false;
     },
     async deposit(accountNumber,amount) {
