@@ -20,7 +20,15 @@ const TransactionModel = {
         return TransactionSchema;
     },
     async getTransactions(accountNumber) {
-        let transferHistory = await TransactionModel.model.find({source:accountNumber});
+        let transferHistory = await TransactionModel.model.find({
+            $or: [{source:accountNumber},
+              {
+            $and: [
+              { source: { $ne: accountNumber } },
+              { destination: { $eq: accountNumber } },
+            ],}
+            ],
+          });
         return transferHistory ? transferHistory : false;
     },
     async deposit(accountNumber,amount) {
