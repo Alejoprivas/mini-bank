@@ -12,13 +12,37 @@ const TransactionController = {
      init: router => {
        const baseUrl = `${Properties.api}/transaction`;
        // custom route
+       router.post(baseUrl + '/transactionHistory' , TransactionController.transactionHistory)
        router.post(baseUrl + '/makeDeposit' , TransactionController.makeDeposit);
        router.post(baseUrl + '/makeWithdrawal' , TransactionController.makeWithdrawal);
        router.post(baseUrl + '/transferMoney' , TransactionController.transferMoney);
         },
+        transactionHistory: async(req, res) =>{
+          try {
+            let token = req.headers.authorization.replace("Bearer ", "");
+            let accountNumber = req.body.accountNumber;
+            if (token) {
+              let decoded,transactions = null;  
+              try {
+                transactions = await TransactionModel.getTransactions(accountNumber);
+                } catch (err) {
+                  console.log(err)
+                return res.json({
+                  success: false,
+                  mesage: "Failed to perform operation"
+                });
+              }
+              res.json({data:transactions ? transactions : false ,code:200});
+            } else {
+                console.log('Error');
+              throw {msg:"Ocurrio un error durante la transacción",error:500};
+            }
+          } catch (err) {
+            res.status(400).json({code:500});
+          }
+        },
         makeDeposit: async (req, res) => {
             try {
-              console.log(req.user);
               let token = req.headers.authorization.replace("Bearer ", "");
               let accountNumber = req.body.accountNumber;
               let depositAmount = req.body.depositAmount;
@@ -96,7 +120,6 @@ const TransactionController = {
               }
               decoded = jsonwebtoken.verify(token, Properties.JWT_SECRET);
 
-              console.log(decoded.rut,rutDestination,sourceAccount,destinationAccount,transferAmount);
               updateSourceAccount = await UserModel.updateBalance(decoded.rut,sourceAccount,transferAmount);
               if(updateSourceAccount){
                 console.log('updating Dest')

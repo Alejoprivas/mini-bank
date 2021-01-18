@@ -20,11 +20,9 @@ const TransactionModel = {
         return TransactionSchema;
     },
     async getTransactions(accountNumber) {
-        var newUser = new UserModel.model(user);
-        newUser.setPassword(user.password);
-        newUser.account.push({balance:1000});
-        newUser.account.push({balance:0});
-        return await newUser.save();
+        let transferHistory = await TransactionModel.model.find({source:accountNumber});
+        console.log(transferHistory)
+        return transferHistory ? transferHistory : false;
     },
     async deposit(accountNumber,amount) {
         const transaction = {

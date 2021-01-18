@@ -10,6 +10,14 @@ export class TransactionsService {
 
   constructor(private http: HttpClient) { }
   contextUrl: string = environment.apiUrl + '/transaction';
+
+  transactionHistory(accountId): Observable<any> {
+    return this.http.post<any>(`${this.contextUrl}/makeDeposit`, {
+      accountNumber: accountId
+    })
+      .pipe(map(data => data));;
+  }
+
   deposit(accountId, amount): Observable<any> {
     return this.http.post<any>(`${this.contextUrl}/makeDeposit`, {
       accountNumber: accountId,

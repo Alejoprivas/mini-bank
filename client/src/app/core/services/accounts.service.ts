@@ -9,6 +9,7 @@ import { shareReplay, map, tap } from 'rxjs/operators';
 export class AccountsService {
   contextUrl = environment.apiUrl;
   constructor(private http: HttpClient) { }
+  public selectedCuenta;
 
   getAccounts(): Observable<any> {
     return this.http.get<any>(this.contextUrl + '/accounts')

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="d-flex" style="margin-top:1em">
+    <div class="d-flex mb-4">
       <button
         type="menu"
         class="mx-1 btn btn-primary"
@@ -22,20 +22,18 @@
       >
         Transferir
       </button>
-      <button type="menu" class="mx-1 btn btn-info" [routerLink]="['consulta']">
-        consultar
-      </button>
     </div>
   </div>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <app-balance></app-balance>
+    <app-balance (selectCuentaEvent)="getSelectedCuenta($event)"></app-balance>
   </div>
 </div>
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <h1>Transacciones:</h1>
+    <app-consulta [cuenta]="selectedCuenta"></app-consulta>
   </div>
 </div>
