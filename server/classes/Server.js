@@ -31,6 +31,23 @@ class Server{
         this.app.use(bodyParser.json());
         this.app.use(cors());
 
+    // Redirect frontend
+        this.app.use("*", (req, res, next) => {
+            if (req.originalUrl) {
+            let url = req.originalUrl;
+            if (!url.startsWith("/api/") && url.indexOf(".") == -1) {
+                res
+                .status(200)
+                .sendFile(
+                    path.resolve(__dirname + "//..//..//client//dist//client//index.html")
+                );
+            } else {
+                next();
+            }
+            } else {
+            next();
+            }
+        });
         //Start Server
         const server = http.Server(this.app);
         this.app.use(express.static(properties.publicPath));
