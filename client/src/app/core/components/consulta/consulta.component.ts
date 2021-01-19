@@ -18,6 +18,7 @@ export class ConsultaComponent implements OnChanges {
   }
 
   ngOnChanges(changes) {
+<<<<<<< HEAD
     console.log(changes);
     if (changes.cuenta.currentValue) {
       this.selectedCuenta = changes.currentValue
@@ -25,6 +26,12 @@ export class ConsultaComponent implements OnChanges {
       this.transactionsService.transactionHistory(changes.currentValue).subscribe(transaction => {
         this.transactions = transaction;
         console.log(transaction);
+=======
+    if (changes.cuenta.currentValue) {
+      this.selectedCuenta = changes.cuenta.currentValue
+      this.transactionsService.transactionHistory(this.selectedCuenta).subscribe(response => {
+        this.transactions = response.data;
+>>>>>>> 8677d77604dc990ca794086a1e0122428bc75924
       });
     }
 
